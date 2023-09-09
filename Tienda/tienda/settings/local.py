@@ -1,3 +1,6 @@
+#   tenes que entrar a manage.py y modificar la linia os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tienda.settings.py) y agregarle la ruta a este archivo
+#   quedaria asi os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tienda.settings.local')
+#   tenes que hacer lo mismo en el archivo asgi.py
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!

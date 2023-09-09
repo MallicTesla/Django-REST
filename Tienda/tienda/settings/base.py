@@ -36,6 +36,8 @@ LOCAL_APPS = [
 #   las aplicaciones de terseros
 THIRD_APPS = [
     "rest_framework",
+    #   desues de instalar esta libreria agregas algo en MIDDLEWARE
+    "simple_history",
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -48,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #   agregas esto que es para reconoser el istorial de cada usuario
+    "simple-history.middleware.HistoryRequestMiddleware",
 ]
 
 ROOT_URLCONF = 'tienda.urls'
