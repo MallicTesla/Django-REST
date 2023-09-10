@@ -6,7 +6,7 @@ from simple_history.models import HistoricalRecords
 
 
 class Gestor_Usuario(BaseUserManager):
-    #   el guion bajo _ al prinsipio indica que el metodo e s privado y no debe ser accedido directamente desde fuera de la clase
+    #   el guion bajo _ al prinsipio indica que el metodo es privado y no debe ser accedido directamente desde fuera de la clase
     def _crear_usuario(self, usuario_nombre, email, nombre, apellido, contraseña, es_personal, es_superusuario, **campos_extra):
         usuario = self.model(
             usuario_nombre=usuario_nombre,
@@ -36,7 +36,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     #   cuando se coloca una etiqueta dentro del campo ('Correo Electrónico'), al crear un formulario abace del modelo el formulario muestra eso como nombre del campo
     email = models.EmailField('Correo Electrónico', max_length=255, unique=True)
     nombre = models.CharField('Nombres', max_length=255, blank=True, null=True)
-    apellido = models.CharField('Apellidos', max_length=255, blank=True, null=True)
+    apellido = models.CharField('Apellido', max_length=255, blank=True, null=True)
     imagen = models.ImageField('Imagen de perfil', upload_to='perfil/', max_length=255, null=True, blank=True)
     es_activo = models.BooleanField(default=True)
     es_personal = models.BooleanField(default=False)
