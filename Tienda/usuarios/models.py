@@ -23,6 +23,9 @@ class Gestor_Usuario(BaseUserManager):
         usuario.save(using=self.db)
 
         return usuario
+    
+    def get_by_natural_key(self, usuario_nombre):
+        return self.get(usuario_nombre = usuario_nombre)
 
     def crear_usuario(self, usuario_nombre, email, nombre, apellido, contraseña=None, **campos_extra):
         return self._crear_usuario(usuario_nombre, email, nombre, apellido, contraseña, False, False, **campos_extra)
@@ -32,7 +35,7 @@ class Gestor_Usuario(BaseUserManager):
 
 #   Este es el modelo de usuario personalizado.
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    usuario_nombre = models.CharField(max_length=255, unique=True)
+    nombre_usuario = models.CharField(max_length=255, unique=True)
     #   cuando se coloca una etiqueta dentro del campo ('Correo Electrónico'), al crear un formulario abace del modelo el formulario muestra eso como nombre del campo
     email = models.EmailField('Correo Electrónico', max_length=255, unique=True)
     nombre = models.CharField('Nombres', max_length=255, blank=True, null=True)
@@ -43,18 +46,21 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     #   registra el historial
     historico = HistoricalRecords()
 
+    # def natural_key(self):
+    #     return (self.nombre_usuario,)
+
     #   Esto afecta cómo se muestra el nombre del modelo en la interfaz de administración de Django.
     class Meta:
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
 
-#   Esta constante se utiliza para especificar cuál es el campo que se utilizará como nombre de usuario
-CAMPO_USUARIO_NOMBRE = 'usuario_nombre'
-#    contiene los nombres de los campos que se requieren cuando se crea un nuevo usuario como minimo
-CAMPOS_REQUERIDOS = ['email', 'nombre', 'apellido']
+    #   Esta constante se utiliza para especificar cuál es el campo que se utilizará como nombre de usuario
+    USERNAME_FIELD = 'nombre_usuario'
+    #    contiene los nombres de los campos que se requieren cuando se crea un nuevo usuario como minimo
+    REQUIRED_FIELDS = ['email', 'nombre', 'apellido']
 
-def clave_natural(self):
-    return self.usuario_nombre
+    def natural_key (self):
+        return (self.usuario_nombre,)
 
-def __str__(self):
-    return f'{self.nombre} {self.apellido}'
+    def __str__(self):
+        return f'{self.nombre} {self.apellido}'

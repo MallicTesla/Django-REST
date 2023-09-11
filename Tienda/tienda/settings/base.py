@@ -30,7 +30,7 @@ BASE_APPS = [
 
 #   Las aplicaciones que creo
 LOCAL_APPS = [
-
+    "usuarios",
 ]
 
 #   las aplicaciones de terseros
@@ -105,6 +105,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+#   especifica un modelo de usuario personalizado
+AUTH_USER_MODEL = "usuarios.Usuario"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
