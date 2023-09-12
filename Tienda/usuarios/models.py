@@ -7,14 +7,14 @@ from simple_history.models import HistoricalRecords
 
 class Gestor_Usuario(BaseUserManager):
     #   el guion bajo _ al prinsipio indica que el metodo es privado y no debe ser accedido directamente desde fuera de la clase
-    def _crear_usuario(self, usuario_nombre, email, nombre, apellido, contraseña, es_personal, es_superusuario, **campos_extra):
+    def _crear_usuario(self, nombre_usuario, email, nombre, apellido, contraseña, is_staff , is_superuser, **campos_extra):
         usuario = self.model(
-            usuario_nombre=usuario_nombre,
+            nombre_usuario=nombre_usuario,
             email=email,
             nombre=nombre,
             apellido=apellido,
-            es_personal=es_personal,
-            es_superusuario=es_superusuario,
+            is_staff =is_staff ,
+            is_superuser=is_superuser,
             #   es para agregar campos adisionales
             **campos_extra
         )
@@ -23,15 +23,16 @@ class Gestor_Usuario(BaseUserManager):
         usuario.save(using=self.db)
 
         return usuario
-    
-    def get_by_natural_key(self, usuario_nombre):
-        return self.get(usuario_nombre = usuario_nombre)
 
-    def crear_usuario(self, usuario_nombre, email, nombre, apellido, contraseña=None, **campos_extra):
-        return self._crear_usuario(usuario_nombre, email, nombre, apellido, contraseña, False, False, **campos_extra)
+    #   es para buscar un usuario por su nombre_usuario
+    def get_by_natural_key(self, nombre_usuario):
+        return self.get(nombre_usuario = nombre_usuario)
 
-    def crear_superusuario(self, usuario_nombre, email, nombre, apellido, contraseña=None, **campos_extra):
-        return self._crear_usuario(usuario_nombre, email, nombre, apellido, contraseña, True, True, **campos_extra)
+    def create_user(self, nombre_usuario, email, nombre, apellido, contraseña=None, **campos_extra):
+        return self._crear_usuario(nombre_usuario, email, nombre, apellido, contraseña, False, False, **campos_extra)
+
+    def create_superuser(self, nombre_usuario, email, nombre, apellido, contraseña=None, **campos_extra):
+        return self._crear_usuario(nombre_usuario, email, nombre, apellido, contraseña, True, True, **campos_extra)
 
 #   Este es el modelo de usuario personalizado.
 class Usuario(AbstractBaseUser, PermissionsMixin):
@@ -42,12 +43,11 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     apellido = models.CharField('Apellido', max_length=255, blank=True, null=True)
     imagen = models.ImageField('Imagen de perfil', upload_to='perfil/', max_length=255, null=True, blank=True)
     es_activo = models.BooleanField(default=True)
-    es_personal = models.BooleanField(default=False)
+    is_staff  = models.BooleanField(default=False)
     #   registra el historial
     historico = HistoricalRecords()
 
-    # def natural_key(self):
-    #     return (self.nombre_usuario,)
+    objects = Gestor_Usuario()
 
     #   Esto afecta cómo se muestra el nombre del modelo en la interfaz de administración de Django.
     class Meta:
@@ -60,7 +60,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email', 'nombre', 'apellido']
 
     def natural_key (self):
-        return (self.usuario_nombre,)
+        return (self.nombre_usuario,)
 
     def __str__(self):
         return f'{self.nombre} {self.apellido}'
