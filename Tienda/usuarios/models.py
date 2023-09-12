@@ -7,7 +7,7 @@ from simple_history.models import HistoricalRecords
 
 class Gestor_Usuario(BaseUserManager):
     #   el guion bajo _ al prinsipio indica que el metodo es privado y no debe ser accedido directamente desde fuera de la clase
-    def _crear_usuario(self, nombre_usuario, email, nombre, apellido, contraseña, is_staff , is_superuser, **campos_extra):
+    def _crear_usuario(self, nombre_usuario, email, nombre, apellido, password, is_staff , is_superuser, **campos_extra):
         usuario = self.model(
             nombre_usuario=nombre_usuario,
             email=email,
@@ -18,8 +18,8 @@ class Gestor_Usuario(BaseUserManager):
             #   es para agregar campos adisionales
             **campos_extra
         )
-        #   set_password es para encriptar la contraseña
-        usuario.set_password(contraseña)
+        #   set_password es para encriptar la password
+        usuario.set_password(password)
         usuario.save(using=self.db)
 
         return usuario
@@ -28,11 +28,11 @@ class Gestor_Usuario(BaseUserManager):
     def get_by_natural_key(self, nombre_usuario):
         return self.get(nombre_usuario = nombre_usuario)
 
-    def create_user(self, nombre_usuario, email, nombre, apellido, contraseña=None, **campos_extra):
-        return self._crear_usuario(nombre_usuario, email, nombre, apellido, contraseña, False, False, **campos_extra)
+    def create_user(self, nombre_usuario, email, nombre, apellido, password=None, **campos_extra):
+        return self._crear_usuario(nombre_usuario, email, nombre, apellido, password, False, False, **campos_extra)
 
-    def create_superuser(self, nombre_usuario, email, nombre, apellido, contraseña=None, **campos_extra):
-        return self._crear_usuario(nombre_usuario, email, nombre, apellido, contraseña, True, True, **campos_extra)
+    def create_superuser(self, nombre_usuario, email, nombre, apellido, password=None, **campos_extra):
+        return self._crear_usuario(nombre_usuario, email, nombre, apellido, password, True, True, **campos_extra)
 
 #   Este es el modelo de usuario personalizado.
 class Usuario(AbstractBaseUser, PermissionsMixin):
