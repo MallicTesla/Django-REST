@@ -4,10 +4,9 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 #    prepara tu modelo de usuario personalizado para mantener un historial de los cambios realizados en las instancias de ese modelo
 from simple_history.models import HistoricalRecords
 
-
 class Gestor_Usuario(BaseUserManager):
     #   el guion bajo _ al prinsipio indica que el metodo es privado y no debe ser accedido directamente desde fuera de la clase
-    def _crear_usuario(self, nombre_usuario, email, nombre, apellido, password, is_staff , is_superuser, **campos_extra):
+    def _crear_usuario(self, nombre_usuario, email, nombre, apellido, password, is_staff , is_superuser, **extra_fields):
         usuario = self.model(
             nombre_usuario=nombre_usuario,
             email=email,
@@ -16,7 +15,7 @@ class Gestor_Usuario(BaseUserManager):
             is_staff =is_staff ,
             is_superuser=is_superuser,
             #   es para agregar campos adisionales
-            **campos_extra
+            **extra_fields
         )
         #   set_password es para encriptar la password
         usuario.set_password(password)
@@ -28,11 +27,11 @@ class Gestor_Usuario(BaseUserManager):
     def get_by_natural_key(self, nombre_usuario):
         return self.get(nombre_usuario = nombre_usuario)
 
-    def create_user(self, nombre_usuario, email, nombre, apellido, password=None, **campos_extra):
-        return self._crear_usuario(nombre_usuario, email, nombre, apellido, password, False, False, **campos_extra)
+    def create_user(self, nombre_usuario, email, nombre, apellido, password=None, **extra_fields):
+        return self._crear_usuario(nombre_usuario, email, nombre, apellido, password, False, False, **extra_fields)
 
-    def create_superuser(self, nombre_usuario, email, nombre, apellido, password=None, **campos_extra):
-        return self._crear_usuario(nombre_usuario, email, nombre, apellido, password, True, True, **campos_extra)
+    def create_superuser(self, nombre_usuario, email, nombre, apellido, password=None, **extra_fields):
+        return self._crear_usuario(nombre_usuario, email, nombre, apellido, password, True, True, **extra_fields)
 
 #   Este es el modelo de usuario personalizado.
 class Usuario(AbstractBaseUser, PermissionsMixin):
