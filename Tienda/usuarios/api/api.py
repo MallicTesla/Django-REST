@@ -28,4 +28,10 @@ def usuario_api_view (request):
         return Response (usuarios_serializer.data)
     
     elif request.method == "POST":
-        print (request.data)
+        usuarios_serializer = UsuarioSerializers (data = request.data)
+
+        if usuarios_serializer.is_valid () :
+            usuarios_serializer.save ()
+            return Response (usuarios_serializer.data)
+        
+        return Response (usuarios_serializer.errors)
