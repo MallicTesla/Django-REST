@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from usuarios.models import Usuario
-from usuarios.api.serializers import UsuarioSerializers
+from usuarios.api.serializers import UsuarioSerializers, TestUsuarioSerializers
 
 
 # class UsuarioAPIView (APIView):
@@ -26,6 +26,16 @@ def usuarios_api_view (request:Request):
         usuarios=Usuario.objects.all ()
         #   cuando queres serealizar un listado tenes que agregarle (many = True) para que sepa que es mas de uno
         usuarios_serializer = UsuarioSerializers (usuarios, many = True)
+
+        #   prueba
+        tes_data = {
+            "nombre":"api_view",
+            "apellido":"api_view"
+        }
+        tes_data = TestUsuarioSerializers(data = tes_data)
+        print ("antes de validar")
+        if tes_data.is_valid():
+            print ("quedo")
 
         # para pasar el json se tiene que agregar (.data) al final de de la info serealizada
         return Response (usuarios_serializer.data, status = status.HTTP_200_OK)
