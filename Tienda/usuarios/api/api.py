@@ -1,6 +1,8 @@
 # este archivo rempasa al views
 from rest_framework.request import Request
 from rest_framework.response import Response
+#   muestra los codigos de estados la ducumentasion https://www.django-rest-framework.org/api-guide/status-codes/
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from usuarios.models import Usuario
@@ -26,44 +28,47 @@ def usuarios_api_view (request:Request):
         usuarios_serializer = UsuarioSerializers (usuarios, many = True)
 
         # para pasar el json se tiene que agregar (.data) al final de de la info serealizada
-        return Response (usuarios_serializer.data)
+        return Response (usuarios_serializer.data, status = status.HTTP_200_OK)
     
     elif request.method == "POST":
         usuarios_serializer = UsuarioSerializers (data = request.data)
 
         if usuarios_serializer.is_valid () :
             usuarios_serializer.save ()
-            return Response (usuarios_serializer.data)
+            return Response (usuarios_serializer.data, status = status.HTTP_201_CREATED)
         
-        return Response (usuarios_serializer.errors)
+        return Response (usuarios_serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 @api_view (["GET", "PUT", "DELETE"])
 def usuario_api_view (request:Request, id):
-    #   selecsiona a un usuario por id
-    if request.method == "GET":
-        #   esto es igual que usar objects.get (id=id)
-        usuario = Usuario.objects.filter(id = id ).first()
-        usuario_seria = UsuarioSerializers (usuario)
+    #   esto es igual que usar objects.get (id=id)
+    usuario = Usuario.objects.filter(id = id ).first()
 
-        return Response (usuario_seria.data)
+    if usuario:
+        #   selecsiona a un usuario por id
+        if request.method == "GET":
 
-    #   para editar un usuario
-    elif request.method == "PUT":
-        usuario = Usuario.objects.filter(id = id ).first()
-        #   la informasion de la actualisasion se guarda en (data=request.data)
-        usuario_seria = UsuarioSerializers(usuario, data=request.data)
+            usuario_seria = UsuarioSerializers (usuario)
 
-        if usuario_seria.is_valid():
-            usuario_seria.save()
+            return Response (usuario_seria.data, status = status.HTTP_200_OK)
 
-            return Response(usuario_seria.data)
+        #   para editar un usuario
+        elif request.method == "PUT":
+            #   la informasion de la actualisasion se guarda en (data=request.data)
+            usuario_seria = UsuarioSerializers(usuario, data=request.data)
 
-        return Response(usuario_seria.errors)
-    
-    elif request.method == "DELETE":
-        usuario = Usuario.objects.filter(id = id ).first()
-        usuario.delete()
+            if usuario_seria.is_valid():
+                usuario_seria.save()
 
-        return Response ("Eliminado")
+                return Response(usuario_seria.data, status = status.HTTP_200_OK)
+
+            return Response(usuario_seria.errors, status = status.HTTP_400_BAD_REQUEST)
+
+        elif request.method == "DELETE":
+            usuario.delete()
+
+            return Response ({"message":"Usuario elimonado corectamente"}, status = status.HTTP_200_OK)
+        
+    return Response ({"message":"No se encontro ninguna coinsidensia"}, status = status.HTTP_400_BAD_REQUEST)
 
 
