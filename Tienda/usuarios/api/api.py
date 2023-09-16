@@ -29,13 +29,16 @@ def usuarios_api_view (request:Request):
 
         #   prueba
         tes_data = {
-            "nombre":"api_view",
-            "apellido":"api_view"
+            "nombre":"nombre_api_view",
+            "apellido":"nombre_api_view"
         }
-        tes_data = TestUsuarioSerializers(data = tes_data)
+        #   con (context = tes_data) le pasas el contexto al serializers 
+        tes_data = TestUsuarioSerializers(data = tes_data, context = tes_data)
         print ("antes de validar")
         if tes_data.is_valid():
             print ("quedo")
+        else:
+            print (tes_data.errors)
 
         # para pasar el json se tiene que agregar (.data) al final de de la info serealizada
         return Response (usuarios_serializer.data, status = status.HTTP_200_OK)
