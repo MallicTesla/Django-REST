@@ -30,13 +30,15 @@ def usuarios_api_view (request:Request):
         #   prueba
         tes_data = {
             "nombre":"nombre_api_view",
-            "apellido":"nombre_api_view"
+            "apellido":"apellido_api_view"
         }
         #   con (context = tes_data) le pasas el contexto al serializers 
         tes_data = TestUsuarioSerializers(data = tes_data, context = tes_data)
         print ("antes de validar")
         if tes_data.is_valid():
             print ("quedo")
+            Usuario_instance = tes_data.save()
+            print (f"guardado {Usuario_instance}")
         else:
             print (tes_data.errors)
 
@@ -49,7 +51,7 @@ def usuarios_api_view (request:Request):
         if usuarios_serializer.is_valid () :
             usuarios_serializer.save ()
             return Response (usuarios_serializer.data, status = status.HTTP_201_CREATED)
-        
+
         return Response (usuarios_serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 @api_view (["GET", "PUT", "DELETE"])

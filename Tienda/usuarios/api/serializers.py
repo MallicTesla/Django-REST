@@ -35,10 +35,16 @@ class TestUsuarioSerializers (serializers.Serializer):
         return value
 
 # despues de validar los campos anteriores si los pasa sigue con este validate
-    def validate(self, data):
+    def validate (self, data):
         # if data ['nombre'] in data ['apellido']:
         #     raise serializers.ValidationError("Error, el nombre y el apellido no puede ser el mismo")
         return data
+
+    #   en esta clase se hace referensia a al modelo donde se tiene que guardar este serealisador seria el model de la clase Meta
+    def create (self, validated_data):
+        print (f"funcion create {validated_data}")
+        #   lo que se guarda en el modelo serian vlidated_data
+        return Usuario.objects.create (**validated_data)
 
 
 
