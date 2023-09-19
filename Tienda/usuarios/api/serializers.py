@@ -46,5 +46,18 @@ class TestUsuarioSerializers (serializers.Serializer):
         #   lo que se guarda en el modelo serian vlidated_data
         return Usuario.objects.create (**validated_data)
 
+    #   cuando queres actualisar llama a esta funcion
+    #   si en los otros validadores se vlida un campo anterior en la funcion de actualizar (PUT) se le tiene que pasar (context = request.data)
+    def update (self, instance, validated_data):
+        print (f"actializado")
+        #   primero va el nombre del campo en la lista y despues va el campo del modelo
+        instance.nombre = validated_data.get ("nombre", instance.nombre)
+        instance.apellido = validated_data.get ("apellido", instance.apellido)
+        #   este metodo save() guarda directamente sobre el modelo que tambien se puede crear un funsion save para que realise otra operacion
+        instance.save()
+        return instance
 
-
+    #   con esta funsion podes elegir donde guardarlo o que realise otra operasion al momento de gardarse
+    #   este save se llama desde api.py 
+    # def save (self):
+    #     print (self.validated_data)

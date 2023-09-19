@@ -27,20 +27,20 @@ def usuarios_api_view (request:Request):
         #   cuando queres serealizar un listado tenes que agregarle (many = True) para que sepa que es mas de uno
         usuarios_serializer = UsuarioSerializers (usuarios, many = True)
 
-        #   prueba
-        tes_data = {
-            "nombre":"nombre_api_view",
-            "apellido":"apellido_api_view"
-        }
-        #   con (context = tes_data) le pasas el contexto al serializers 
-        tes_data = TestUsuarioSerializers(data = tes_data, context = tes_data)
-        print ("antes de validar")
-        if tes_data.is_valid():
-            print ("quedo")
-            Usuario_instance = tes_data.save()
-            print (f"guardado {Usuario_instance}")
-        else:
-            print (tes_data.errors)
+        # #   prueba creando todo el serealizador
+        # tes_data = {
+        #     "nombre":"nombre_api_view",
+        #     "apellido":"apellido_api_view"
+        # }
+        # #   con (context = tes_data) le pasas el contexto al serializers 
+        # tes_data = TestUsuarioSerializers(data = tes_data, context = tes_data)
+        # print ("antes de validar")
+        # if tes_data.is_valid():
+        #     print ("quedo")
+        #     Usuario_instance = tes_data.save()
+        #     print (f"guardado {Usuario_instance}")
+        # else:
+        #     print (tes_data.errors)
 
         # para pasar el json se tiene que agregar (.data) al final de de la info serealizada
         return Response (usuarios_serializer.data, status = status.HTTP_200_OK)
@@ -70,7 +70,11 @@ def usuario_api_view (request:Request, id):
         #   para editar un usuario
         elif request.method == "PUT":
             #   la informasion de la actualisasion se guarda en (data=request.data)
-            usuario_seria = UsuarioSerializers(usuario, data=request.data)
+            # usuario_seria = UsuarioSerializers(usuario, data=request.data)
+
+            #   cuando actualis un modelo por medio de un serealizador personalisado
+            #   el context = request.data es encaso que las otras validadores rquieran una validasion anterior 
+            usuario_seria = TestUsuarioSerializers (usuario, data=request.data, context = request.data)
 
             if usuario_seria.is_valid():
                 usuario_seria.save()
