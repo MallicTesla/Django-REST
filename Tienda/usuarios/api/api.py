@@ -18,12 +18,14 @@ from usuarios.api.serializers import UsuarioSerializers, TestUsuarioSerializers
 #         # para pasar el json se tiene que agregar (.data) al final de de la info serealizada
 #         return Response (usuarios_serializer.data)
 
+
 #   esto hace lo mismo que la clase UsuarioAPIView
 #   al decorador se le pasa los metodos que van a ser usados por la funcion
 @api_view (["GET","POST"])
 def usuarios_api_view (request:Request):
     if request.method == "GET":
-        usuarios=Usuario.objects.all ()
+        #   .value (los campos que queres mostrar) tenes que agregar to_representation en el serealizador
+        usuarios = Usuario.objects.all().values ("id", "nombre_usuario", "email", "password")
         #   cuando queres serealizar un listado tenes que agregarle (many = True) para que sepa que es mas de uno
         usuarios_serializer = UsuarioSerializers (usuarios, many = True)
 
@@ -70,11 +72,11 @@ def usuario_api_view (request:Request, id):
         #   para editar un usuario
         elif request.method == "PUT":
             #   la informasion de la actualisasion se guarda en (data=request.data)
-            # usuario_seria = UsuarioSerializers(usuario, data=request.data)
+            usuario_seria = UsuarioSerializers(usuario, data=request.data)
 
             #   cuando actualis un modelo por medio de un serealizador personalisado
             #   el context = request.data es encaso que las otras validadores rquieran una validasion anterior 
-            usuario_seria = TestUsuarioSerializers (usuario, data=request.data, context = request.data)
+            # usuario_seria = TestUsuarioSerializers (usuario, data=request.data, context = request.data)
 
             if usuario_seria.is_valid():
                 usuario_seria.save()

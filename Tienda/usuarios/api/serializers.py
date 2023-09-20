@@ -6,6 +6,21 @@ class UsuarioSerializers (serializers.ModelSerializer):
         model = Usuario
         fields = "__all__"
 
+    def to_representation (self, instance):
+        print (f"desde serealizador f {instance}")
+        #   asi se llama a la automatizasion del serealizador para que funsione normal mente
+        # super().to_representation (instance)
+        #   asi muestra solo los campos definidos tambien se tienen que definir en el objeto en api.py
+        #   si se usa .values en el objeto en api.py aca se tiene que pasar los campos como si fuera una lista sino se le pasa solo el atributo id":instance.id,
+        return {
+            #   podes modificar lo que esta antes del instance para que muestre eso sin modificar el modelo
+            "id":instance ["id"],
+            "nombre de usuario":instance ["nombre_usuario"],
+            "correo":instance ["email"],
+            "contraseña":instance ["password"]
+        }
+
+
 #   asi se hace una serealizasion sin un modelo se construlle como si fuese un modelo
 class TestUsuarioSerializers (serializers.Serializer):
     nombre = serializers.CharField(max_length=255)

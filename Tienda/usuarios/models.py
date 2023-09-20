@@ -65,5 +65,5 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         return f'{self.nombre} {self.apellido}'
 
     #   este save es llamad desde el serealizador si no esta difinido usa el save por defecto del modelo
-    def save (self, *args, **kwargs):
-        print ("estoy en el save del modelo")
+    # def save (self, *args, **kwargs):
+    #     print ("estoy en el save del modelo")
