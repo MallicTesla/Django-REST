@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from usuarios.models import Usuario
-from usuarios.api.serializers import UsuarioSerializers, TestUsuarioSerializers
+from usuarios.api.serializers import UsuarioSerializers, TestUsuarioSerializers, UsuarioListaSerializaes
 
 
 # class UsuarioAPIView (APIView):
@@ -27,7 +27,7 @@ def usuarios_api_view (request:Request):
         #   .value (los campos que queres mostrar) tenes que agregar to_representation en el serealizador
         usuarios = Usuario.objects.all().values ("id", "nombre_usuario", "email", "password")
         #   cuando queres serealizar un listado tenes que agregarle (many = True) para que sepa que es mas de uno
-        usuarios_serializer = UsuarioSerializers (usuarios, many = True)
+        usuarios_serializer = UsuarioListaSerializaes (usuarios, many = True)
 
         # #   prueba creando todo el serealizador
         # tes_data = {

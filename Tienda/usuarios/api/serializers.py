@@ -6,6 +6,26 @@ class UsuarioSerializers (serializers.ModelSerializer):
         model = Usuario
         fields = "__all__"
 
+    def create(self, validated_data):
+        usuario = Usuario (**validated_data)
+        #   aca se toma la contraseña cuando creas un usuario nuevo y la encripta
+        usuario.set_password (validated_data ["password"])
+        usuario.save()
+        return usuario
+
+    def update(self, instance, validated_data):
+        #   aca encripta la contraseña al actualisar un usuario
+        usuario = super().update(instance, validated_data)
+        usuario.set_password (validated_data ["password"])
+        usuario.save()
+        return usuario
+
+
+#   esta clase se usa para ver la todos los usuarios y algunos de sus campos
+class UsuarioListaSerializaes (serializers.ModelSerializer):
+    class Meta :
+        model = Usuario
+
     def to_representation (self, instance):
         print (f"desde serealizador f {instance}")
         #   asi se llama a la automatizasion del serealizador para que funsione normal mente
@@ -17,7 +37,7 @@ class UsuarioSerializers (serializers.ModelSerializer):
             "id":instance ["id"],
             "nombre de usuario":instance ["nombre_usuario"],
             "correo":instance ["email"],
-            "contraseña":instance ["password"]
+            "password":instance ["password"]
         }
 
 
