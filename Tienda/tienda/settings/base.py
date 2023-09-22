@@ -31,6 +31,8 @@ BASE_APPS = [
 #   Las aplicaciones que creo
 LOCAL_APPS = [
     "usuarios",
+    "productos",
+    "base",
 ]
 
 #   las aplicaciones de terseros
