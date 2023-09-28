@@ -1,0 +1,8 @@
+1)  Para instalar libreria para ver las apis es (documentacion https://drf-yasg.readthedocs.io/en/stable/readme.html)
+	    pip install drf-yasg
+
+2)  despues añadis esto a las apps
+        "drf_yasg"
+
+3)  en las urls.py tenes que agregar unas cuantas cosas miralo en la documentacion
+

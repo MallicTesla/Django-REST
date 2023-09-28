@@ -38,8 +38,10 @@ LOCAL_APPS = [
 #   las aplicaciones de terseros
 THIRD_APPS = [
     "rest_framework",
-    #   desues de instalar esta libreria agregas algo en MIDDLEWARE
+    #   despues de instalar esta libreria agregas algo en MIDDLEWARE
     "simple_history",
+    # libreria para ver las apis documentacion https://drf-yasg.readthedocs.io/en/stable/readme.html
+    "drf_yasg"
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS

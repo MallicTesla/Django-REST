@@ -1,8 +1,24 @@
+from rest_framework import viewsets
 from rest_framework import generics
+
 from productos.models import UnidadMedida, CategoriaProducto, Indicador
 from productos.api.serealizadores.general_serealaizer import UnidadMedidaSerealizera, CategoriaProductoSerealizera, IndicadorSerealizera
 from base.api import GeneralListaApiView
 
+# -----------------------------------------------------------------------------------------------------------------------------
+
+#   asi se hace si queres ahorarte el get_queryset
+#   tambien se puede usar GeneralListaApiView
+class UnidadeMedidaListaAPIView (viewsets.ModelViewSet):
+    serializer_class = UnidadMedidaSerealizera
+
+class CategoriaProductoListaAPIView (viewsets.ModelViewSet):
+    serializer_class = CategoriaProductoSerealizera
+
+class IndicadorListaAPIView (viewsets.ModelViewSet):
+    serializer_class = IndicadorSerealizera
+
+# ----------------------------------------------------------------------------------------------------------------------------------
 
 # class UnidadeMedidaListaAPIView (generics.ListAPIView):
 #     serializer_class = UnidadMedidaSerealizera
@@ -21,15 +37,5 @@ from base.api import GeneralListaApiView
 
 #     def get_queryset(self):
 #         return Indicador.objects.filter (estado = True)
-
-#   asi se hace si queres ahorarte el get_queryset
-class UnidadeMedidaListaAPIView (GeneralListaApiView):
-    serializer_class = UnidadMedidaSerealizera
-
-class CategoriaProductoListaAPIView (GeneralListaApiView):
-    serializer_class = CategoriaProductoSerealizera
-
-class IndicadorListaAPIView (GeneralListaApiView):
-    serializer_class = IndicadorSerealizera
 
 

@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets
+
 from base.api import GeneralListaApiView
 from productos.api.serealizadores.producto_serealizador import ProductoSerealizera
 
@@ -112,7 +113,6 @@ class ProductoActualizarBorrarAPIView (generics.RetrieveUpdateDestroyAPIView):
 #   devuelve todos los productos (ahora no lo uso esto tambien lo ago en otra clase)
 class ProdctoListaAPIView (GeneralListaApiView):
     serializer_class = ProductoSerealizera
-
 
 
 #   asi borras un producto directamente de la base de datos no es muy recomendavle hacerlo (ahora no lo uso esto tambien lo ago en otra clase)
