@@ -52,10 +52,7 @@ class ProductoViewSets (viewsets.ModelViewSet):
                 return Response (producto_serealaizer.data, status = status.HTTP_200_OK)
             return Response (producto_serealaizer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-
-#   devuelve todos los productos (ahora no lo uso esto tambien lo ago en otra clase)
-class ProdctoListaAPIView (GeneralListaApiView):
-    serializer_class = ProductoSerealizera
+# --------------------------------------------------------------------------------------------------------------------------------------------
 
 #   con CreateAPIView solo podes agregar productos nuevos
 #   con ListCreateAPIView devuelve una lista con todo los productos y ademas podes agregar nuevos
@@ -109,6 +106,13 @@ class ProductoActualizarBorrarAPIView (generics.RetrieveUpdateDestroyAPIView):
             producto.save()
             return Response ({"message":"Eliminado corectamente"}, status = status.HTTP_200_OK)
         return Response ({"error":"No se encuentra ningun producto con esos datos"}, status = status.HTTP_400_BAD_REQUEST)
+
+# ---------------------------------------------------------------------------------------------------------------------------------
+
+#   devuelve todos los productos (ahora no lo uso esto tambien lo ago en otra clase)
+class ProdctoListaAPIView (GeneralListaApiView):
+    serializer_class = ProductoSerealizera
+
 
 
 #   asi borras un producto directamente de la base de datos no es muy recomendavle hacerlo (ahora no lo uso esto tambien lo ago en otra clase)
