@@ -1,8 +1,57 @@
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import viewsets
 from base.api import GeneralListaApiView
 from productos.api.serealizadores.producto_serealizador import ProductoSerealizera
+
+# las urls con las que se llaman a los ViewSets van en el archivo routers.py
+#   ModelViewSet hace toda las rutas y metodos de foram automatica pero se pueden sobre escrivir
+class ProductoViewSets (viewsets.ModelViewSet):
+    serializer_class = ProductoSerealizera
+    # esto sustitulle al metodo get_queryset y no es nesesario modificar el routers.py
+    # queryset = ProductoSerealizera.Meta.model.objects.filter(estado = True)
+
+    # ejemplo
+    #   para usar este metodo tenes que agregar en la ruta del archivo routers.py un basename
+    def get_queryset(self, pk = None):
+        if pk is None :
+            return self.get_serializer().Meta.model.objects.filter (estado = True)
+        else:
+            return self.get_serializer().Meta.model.objects.filter(id = pk, estado = True).first()
+
+    #   esto mostraria todos los productos
+    def list (self, request):
+        serealizador = self.get_serializer(self.get_queryset(), many = True)
+        return Response (serealizador.data, status = status.HTTP_200_OK)
+
+    #   es lo mismo que un metodo post que es un http PUT
+    def create (self, request):
+        serealizador = self.serializer_class (data = request.data)
+        if serealizador.is_valid():
+            serealizador.save()
+            return Response ({"message":"Producto creado corectamente"}, status = status.HTTP_201_CREATED)
+        return Response (serealizador.errors, status = status.HTTP_400_BAD_REQUEST)
+
+#   el delate por defecto elimina el producto por completo
+#   es lo mismo que el otro delete 
+    def destroy (self, request, pk = None):
+        producto = self.get_queryset().filter(id = pk).first()
+        if producto :
+            producto.estado = False
+            producto.save()
+            return Response ({"message":"Eliminado corectamente"}, status = status.HTTP_200_OK)
+        return Response ({"error":"No se encuentra ningun producto con esos datos"}, status = status.HTTP_400_BAD_REQUEST)
+
+#   es lo mismo que para actualisar
+    def update (self, request, pk = None):
+        if self.get_queryset(pk):
+            producto_serealaizer = self.serializer_class(self.get_queryset (pk), data = request.data)
+            if producto_serealaizer.is_valid():
+                producto_serealaizer.save()
+                return Response (producto_serealaizer.data, status = status.HTTP_200_OK)
+            return Response (producto_serealaizer.errors, status = status.HTTP_400_BAD_REQUEST)
+
 
 #   devuelve todos los productos (ahora no lo uso esto tambien lo ago en otra clase)
 class ProdctoListaAPIView (GeneralListaApiView):
@@ -15,7 +64,7 @@ class ProductoListaCrearAPIView (generics.ListCreateAPIView):
     #   esta es la consulta de lo que estoy buscando en este caso es un listado con todos los productos
     queryset = ProductoSerealizera.Meta.model.objects.filter(estado = True)
 
-    #   asi es para personalisar el mensage despues de hacer un PUT
+    #   asi es para hacer un PUT
     def post(self, request):
         serealizador = self.serializer_class (data = request.data)
         if serealizador.is_valid():
