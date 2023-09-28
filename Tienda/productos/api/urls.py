@@ -11,7 +11,7 @@ urlpatterns = [
 
     # path ("producto/lista/", ProdctoListaAPIView.as_view(), name = "Productos_lista"),
     path ("producto/", ProductoListaCrearAPIView.as_view(), name = "producto_crear"),
-    path ("producto/<int:pk>/", ProductoActualizarBorrarAPIView.as_view(), name = "producto_id"),
+    path ("producto-actualizar-borrar/<int:pk>/", ProductoActualizarBorrarAPIView.as_view(), name = "producto_id"),
     # path ("producto/borrar/<int:pk>/", ProductoBorrarAPIView.as_view(), name = "producto_borrar_id"),
     # path ("producto/actualizar/<int:pk>/", ProductoActualizarAPIView.as_view(), name = "producto_actualizar_id"),
 

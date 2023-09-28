@@ -30,8 +30,11 @@ class ProductoActualizarBorrarAPIView (generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductoSerealizera
 
     # muestra el producto
-    def get_queryset(self):
-        return self.get_serializer().Meta.model.objects.filter(estado = True)
+    def get_queryset(self, pk = None):
+        if pk is None :
+            return self.get_serializer().Meta.model.objects.filter (estado = True)
+        else:
+            return self.get_serializer().Meta.model.objects.filter(id = pk, estado = True).first()
 
     #   con patch se hace la solisitud de la info
     def patch(self, request, pk = None):
