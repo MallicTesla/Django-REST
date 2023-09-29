@@ -46,6 +46,11 @@ THIRD_APPS = [
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
+SWAGGER_SETTINGS = {
+    # esto hace que los menus desplegables de swagger aparescan contraidos existen munchas mas configurasiones en la documentacion
+    "DOC_EXPANSION":"none"
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
