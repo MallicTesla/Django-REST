@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
-from usuarios.api.serializers import UsuarioListaSerializaes
+from usuarios.api.serializers import UsuarioTokenSerializers
 
 
 class Login (ObtainAuthToken):
@@ -22,7 +22,7 @@ class Login (ObtainAuthToken):
                 #   esto debelve dos balores por eso la coma,
                 token,created = Token.objects.get_or_create (user = usuario)
                 print (f"tokeen -- {token} \n created-- {created} ")
-                usuario_serialaizer = UsuarioListaSerializaes (usuario)
+                usuario_serialaizer = UsuarioTokenSerializers (usuario)
                 print ("2.2")
 
                 #   verifica si tiiene un toquen si lo tiene es True
