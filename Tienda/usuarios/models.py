@@ -41,7 +41,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     nombre = models.CharField('Nombres', max_length=255, blank=True, null=True)
     apellido = models.CharField('Apellido', max_length=255, blank=True, null=True)
     imagen = models.ImageField('Imagen de perfil', upload_to='perfil/', max_length=255, null=True, blank=True)
-    es_activo = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
     is_staff  = models.BooleanField(default=False)
     #   registra el historial
     historico = HistoricalRecords()

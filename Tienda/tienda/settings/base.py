@@ -38,10 +38,13 @@ LOCAL_APPS = [
 #   las aplicaciones de terseros
 THIRD_APPS = [
     "rest_framework",
+    # este es un jenerador de tokens que viene incluido en el framework
+    "rest_framework.authtoken",
     #   despues de instalar esta libreria agregas algo en MIDDLEWARE
     "simple_history",
     # libreria para ver las apis documentacion https://drf-yasg.readthedocs.io/en/stable/readme.html
     "drf_yasg"
+
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -129,5 +132,11 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

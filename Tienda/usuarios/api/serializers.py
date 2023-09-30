@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from usuarios.models import Usuario
 
+
+class UsuarioTokenSerializers (serializers.ModelSerializer):
+    class Meta :
+        model = Usuario
+        fields = ("nombre_usuario", "email", "nombre", "apellido", )
+
 class UsuarioSerializers (serializers.ModelSerializer):
     class Meta:
         model = Usuario

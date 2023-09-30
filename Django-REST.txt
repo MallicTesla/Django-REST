@@ -6,3 +6,12 @@
 
 3)  en las urls.py tenes que agregar unas cuantas cosas miralo en la documentacion
 
+----------------------------------------------------------------------------------------------------------------------------------------------
+authtoken
+
+ 1) primero colocas esto en las apps
+        "rest_framework.authtoken",
+
+ 2) despues haces las migration
+
+3) lo que sige esta en views.py
