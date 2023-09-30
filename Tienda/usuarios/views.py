@@ -1,3 +1,8 @@
+from datetime import datetime
+
+# esto controla las sesiones de django
+from django.contrib.sessions.models import Session
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -14,44 +19,53 @@ class Login (ObtainAuthToken):
         print (login_serializer)
         #   verifica si el usuario esta en la base de datos
         if login_serializer.is_valid():
-            print ("1")
             usuario = login_serializer.validated_data["user"]
 
             if usuario.is_active:
-                print ("2")
                 #   esto debelve dos balores por eso la coma,
                 token,created = Token.objects.get_or_create (user = usuario)
                 print (f"tokeen -- {token} \n created-- {created} ")
                 usuario_serialaizer = UsuarioTokenSerializers (usuario)
-                print ("2.2")
 
                 #   verifica si tiiene un toquen si lo tiene es True
                 if created:
-                    print ("3")
                     return Response ({  "token": token.key,
                                         "usuario": usuario_serialaizer.data,
                                         "mensage": "Inisio de sesion exitosa"},
                                         status = status.HTTP_200_OK)
 
                 else:
-                    #   si tiene un token ya creado lo elimina y le crea uno nuevo
-                    print ("3.1")
+                    # esto es para cerar todas las sesiones abiertas si son del mismo usuario
+                    # # toma todas las sesiones nuevas
+                    # sesiones = Session.objects.filter(expire_date__gte = datetime.now())
+                    # # comprueva si existen varias sesiones
+                    # if sesiones.exists():
+                    #     for sesion in sesiones :
+                    #         sesion_data = sesion.get_decoded()
+
+                    #         # comprueva si el id del usuario es igual al id de la sesion
+                    #         if usuario.id == int (sesion_data.get ("_auth_user_id")):
+                    #             # bora las sesiones aviertas
+                    #             sesion.delete()
+
+                    # #   si tiene un token ya creado lo elimina y le crea uno nuevo
+                    # token.delete()
+                    # token = Token.objects.create (user = usuario)
+
+                    # return Response ({  
+                    #                     "token": token.key,
+                    #                     "user": usuario_serialaizer.data,
+                    #                     "mensage": "Inisio de sesion exitosa"},
+                    #                     status = status.HTTP_200_OK)
+
+                    # para bloquear que un usuario inisie sesion cuando ya esta inisiado
                     token.delete()
-                    token = Token.objects.create (user = usuario)
-                    print ("3.2")
-                    return Response ({  
-                                        "token": token.key,
-                                        "user": usuario_serialaizer.data,
-                                        "mensage": "Inisio de sesion exitosa"},
-                                        status = status.HTTP_200_OK)
+                    return Response ({"error":"ya as inisiado sesion con este usuario"}, status = status.HTTP_409_CONFLICT)
 
             else:
-                print ("4")
                 return Response ({"error":"Este usuario no inisiar sesion"}, status = status.HTTP_401_UNAUTHORIZED)
 
         else:
-            print ("5")
             return Response ({"error":"nombre de usuario o contraseña incorecta"}, status = status.HTTP_400_BAD_REQUEST)
 
-        print ("6")
         return Response ({"mensaje":"funciono"}, status = status.HTTP_200_OK)
