@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 
 from usuarios.api.serializers import UsuarioTokenSerializers
 
@@ -69,3 +70,42 @@ class Login (ObtainAuthToken):
             return Response ({"error":"nombre de usuario o contraseña incorecta"}, status = status.HTTP_400_BAD_REQUEST)
 
         return Response ({"mensaje":"funciono"}, status = status.HTTP_200_OK)
+
+
+class Logaut (APIView):
+    # se puede hacer tambien con un metodo post
+    def get (self, request, *args, **kwargs):
+        try:
+            # el token para el logaut tiene que venir desde el fron end en este caso en una variavle llamada token
+            token = request.GET.get("token")
+            print("token",token)
+            token = Token.objects.filter(key = token).first()
+            if token:
+                usuario = token.user
+
+                # esto es para cerar todas las sesiones abiertas si son del mismo usuario
+                # toma todas las sesiones nuevas
+                sesiones = Session.objects.filter(expire_date__gte = datetime.now())
+                # comprueva si existen varias sesiones
+                if sesiones.exists():
+                    for sesion in sesiones :
+                        sesion_data = sesion.get_decoded()
+
+                        # comprueva si el id del usuario es igual al id de la sesion
+                        if usuario.id == int (sesion_data.get ("_auth_user_id")):
+                            # bora las sesiones aviertas
+                            sesion.delete()
+
+                token.delete()
+                mensage_sesion = "Sesion de usuario eliminado."
+                token_mensaje = "Token eliminado."
+
+                return Response ({"token_mensaje":token_mensaje, "mensage_sesion": mensage_sesion}, status = status.HTTP_200_OK)
+            return Response ({"error":"No se a encntrado ningun usuario con esas credensiales"}, status = status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response ({"Error": "No se a encontrado ningun token en la peticion"}, status = status.HTTP_409_CONFLICT)
+
+
+
+
+
