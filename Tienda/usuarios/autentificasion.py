@@ -11,7 +11,7 @@ from rest_framework.exceptions import AuthenticationFailed
 class ExpirasonTokenAuthentication (TokenAuthentication):
     def expira_en (self,token):
         # se define el tiempo que a pasodo
-        tiempo_pasado = timezone.now() - token.creted
+        tiempo_pasado = timezone.now() - token.created
         tiempo_restante = timedelta (seconds = settings.TIEMPO_EXPIRASION_TOKEN) - tiempo_pasado
         return tiempo_restante
 
@@ -22,23 +22,24 @@ class ExpirasonTokenAuthentication (TokenAuthentication):
     def si_expiro_token (self,token):
         si_expiro = self.token_expira_en (token)
         if si_expiro:
-            print ("Token expirado")
-        
+            print ("Token expirado : si_expiro_token")
+
         return si_expiro
 
     def authenticate_credentials(self, key):
+        mensage, token, user = None,None,None
         try:
             token = self.get_model().objects.select_related("user").get (key = key)
 
         except self.get_model().DoesNotExist:
-            raise AuthenticationFailed ("Token invalido.")
+            mensage = "Token invalido."
 
-        if not token.user.is_active:
-            raise AuthenticationFailed ("Uauario no activo o eliminado")
+        if token is not None :
+            if not token.user.is_active:
+                mensage = "Usuario no activo o eliminado."
 
-        expiro = self.si_expiro_token (token)
-        if expiro:
-            return AuthenticationFailed ("Su token expiro")
-        
-        return (token.user.token)
-    
+            expiro = self.si_expiro_token (token)
+            if expiro:
+                mensage = "Su token expiro."
+
+        return (user,token,mensage)

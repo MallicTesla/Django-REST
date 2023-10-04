@@ -3,12 +3,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets
 
+from usuarios.autentificasion_mixer import Autentificador
 from base.api import GeneralListaApiView
 from productos.api.serealizadores.producto_serealizador import ProductoSerealizera
 
 # las urls con las que se llaman a los ViewSets van en el archivo routers.py
 #   ModelViewSet hace toda las rutas y metodos de foram automatica pero se pueden sobre escrivir
-class ProductoViewSets (viewsets.ModelViewSet):
+class ProductoViewSets (Autentificador, viewsets.ModelViewSet):
     serializer_class = ProductoSerealizera
     # esto sustitulle al metodo get_queryset y no es nesesario modificar el routers.py
     # queryset = ProductoSerealizera.Meta.model.objects.filter(estado = True)
