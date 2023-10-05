@@ -12,6 +12,7 @@ class Autentificador (object):
 
     def get_user (self, request):
         token = get_authorization_header(request).split()
+
         if token:
             try:
                 token = token [1].decode()
@@ -38,7 +39,7 @@ class Autentificador (object):
         if usuario is not None:
             if type(usuario) == str:
 
-                response = Response ({"Error ": usuario}, status = status.HTTP_401_UNAUTHORIZED)
+                response = Response ({"Error ": usuario, "expiro": self.usuario_token_expirado}, status = status.HTTP_401_UNAUTHORIZED)
                 response.accepted_renderer = JSONRenderer()
                 response.accepted_media_type = "application/json"
                 response.renderer_context = {}
@@ -50,7 +51,7 @@ class Autentificador (object):
         
         # este error (.accepted_renderer not set on Response) es porque cuando creas una clase que no hereda de una clase de rest_framework
         # pide que le retornes un valor en formato json
-        response = Response ({"Error dispatch :":"No se han enviado las credenciales"}, status = status.HTTP_400_BAD_REQUEST)
+        response = Response (   {"Error dispatch :":"No se han enviado las credenciales", "expiro otro": self.usuario_token_expirado},status = status.HTTP_400_BAD_REQUEST)
         response.accepted_renderer = JSONRenderer()
         response.accepted_media_type = "application/json"
         response.renderer_context = {}

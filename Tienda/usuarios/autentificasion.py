@@ -42,6 +42,7 @@ class ExpirasonTokenAuthentication (TokenAuthentication):
 
         except self.get_model().DoesNotExist:
             mensage = "Token invalido."
+            self.expirado = True
 
         if token is not None :
             if not token.user.is_active:
@@ -51,4 +52,4 @@ class ExpirasonTokenAuthentication (TokenAuthentication):
             if expiro:
                 mensage = "Su token expiro."
 
-        return (user,token,mensage,self.expirado)
+        return (user, token, mensage, self.expirado)

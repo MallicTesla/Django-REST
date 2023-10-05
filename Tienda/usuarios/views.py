@@ -11,6 +11,18 @@ from rest_framework.views import APIView
 
 from usuarios.api.serializers import UsuarioTokenSerializers
 
+class UsuarioToken (APIView):
+    def get (self, request, *args, **kwargs):
+        nombre_usuario = request.GET.get ("username")
+        try:
+            # trae el nombre del usuario a cual le pertenese el token
+            usuario_token = Token.objects.get(user = UsuarioTokenSerializers().Meta.model.objects.filter(nombre_usuario = nombre_usuario).first())
+
+            return Response ({"Token views": usuario_token.key})
+        except KeyError as e:
+            print (e)
+            return Response ({"error views": "credensiales enviadas incorectas"}, status = status.HTTP_400_BAD_REQUEST)
+
 
 class Login (ObtainAuthToken):
     def post (self,request, *args, **kwargs):

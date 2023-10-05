@@ -6,7 +6,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from usuarios.views import Login, Logaut
+from usuarios.views import Login, Logaut, UsuarioToken
 
 
 schema_view = get_schema_view(
@@ -38,6 +38,7 @@ urlpatterns = [
     path ("productos/", include ("productos.api.routers")),
     path("login/", Login.as_view(), name = "login"),
     path("logaut/", Logaut.as_view(), name="logaut"),
+    path("refrescar_token/", UsuarioToken.as_view(), name="refrescar_tokn"),
 
     #   app SWAGGER
     re_path ('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
