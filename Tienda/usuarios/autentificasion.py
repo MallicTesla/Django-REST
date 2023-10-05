@@ -25,7 +25,7 @@ class ExpirasonTokenAuthentication (TokenAuthentication):
     #   esto es lo que hase si expiro el token
     def si_expiro_token (self,token):
         si_expiro = self.token_expira_en (token)
-        print (si_expiro)
+
         if si_expiro:
             self.expirado = True
             #   se elimina el token caducado y y se crea uno nuevo

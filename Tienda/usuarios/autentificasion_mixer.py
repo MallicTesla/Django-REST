@@ -46,7 +46,7 @@ class Autentificador (object):
                 return response
 
             # asi se evitaque que cuando entras por primera ves con un token invalido muestre la info
-            if self.usuario_token_expirado:
+            if not self.usuario_token_expirado:
                 return super().dispatch(request, *args, **kwargs)
         
         # este error (.accepted_renderer not set on Response) es porque cuando creas una clase que no hereda de una clase de rest_framework
