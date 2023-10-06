@@ -43,7 +43,9 @@ THIRD_APPS = [
     #   despues de instalar esta libreria agregas algo en MIDDLEWARE
     "simple_history",
     # libreria para ver las apis documentacion https://drf-yasg.readthedocs.io/en/stable/readme.html
-    "drf_yasg"
+    "drf_yasg",
+    # libreria para politica CORS
+    "corsheaders",
 
 ]
 
@@ -55,6 +57,9 @@ SWAGGER_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    # politica CORS
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,7 +136,6 @@ AUTH_USER_MODEL = "usuarios.Usuario"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -143,3 +147,18 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+#    "https://example.com",
+#    "https://sub.example.com",
+#   en este caso se permite solo del puerto 3000
+    "http://localhost:3000",
+#    "http://127.0.0.1:9000",
+]
+
+CORS_ORIGIN_WHITELIST = [
+#   la misma rutas que estan autorisadas ariba
+    "http://localhost:3000",
+]
+
+STATIC_URL = 'static/'
