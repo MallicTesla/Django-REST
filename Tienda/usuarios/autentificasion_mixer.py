@@ -8,7 +8,8 @@ from usuarios.autentificasion import ExpirasonTokenAuthentication
 class Autentificador (object):
     # esto es para enviar al fron
     usuario = None
-    usuario_token_expirado = False
+    #      nuevo
+    # usuario_token_expirado = False
 
     def get_user (self, request):
         token = get_authorization_header(request).split()
@@ -21,13 +22,18 @@ class Autentificador (object):
                 return None
 
             token_expirado = ExpirasonTokenAuthentication()
-            usuario, token, mensage, self.usuario_token_expirado  =  token_expirado.authenticate_credentials(token)
+            #   nuevo
+            # usuario, token, mensage, self.usuario_token_expirado  =  token_expirado.authenticate_credentials(token)
+            usuario  =  token_expirado.authenticate_credentials(token)
 
-            if usuario != None and token != None:
+            #   nuevo
+            # if usuario != None and token != None:
+            if usuario != None:
                 self.usuario = usuario
                 return usuario
 
-            return mensage
+            #   nuevo
+            # return mensage
 
         return None
 
@@ -37,21 +43,24 @@ class Autentificador (object):
 
         #   pasa esto si se encuentra un token
         if usuario is not None:
-            if type(usuario) == str:
+            # nuevo
+            # if type(usuario) == str:
 
-                response = Response ({"Error ": usuario, "expiro": self.usuario_token_expirado}, status = status.HTTP_401_UNAUTHORIZED)
-                response.accepted_renderer = JSONRenderer()
-                response.accepted_media_type = "application/json"
-                response.renderer_context = {}
-                return response
+            #     response = Response ({"Error ": usuario, "expiro": self.usuario_token_expirado}, status = status.HTTP_401_UNAUTHORIZED)
+            #     response.accepted_renderer = JSONRenderer()
+            #     response.accepted_media_type = "application/json"
+            #     response.renderer_context = {}
+            #     return response
 
-            # asi se evitaque que cuando entras por primera ves con un token invalido muestre la info
+            # # asi se evitaque que cuando entras por primera ves con un token invalido muestre la info
             if not self.usuario_token_expirado:
                 return super().dispatch(request, *args, **kwargs)
         
         # este error (.accepted_renderer not set on Response) es porque cuando creas una clase que no hereda de una clase de rest_framework
         # pide que le retornes un valor en formato json
-        response = Response (   {"Error dispatch :":"No se han enviado las credenciales", "expiro otro": self.usuario_token_expirado},status = status.HTTP_400_BAD_REQUEST)
+        # response = Response (   {"Error dispatch :":"No se han enviado las credenciales", "expiro otro": self.usuario_token_expirado},status = status.HTTP_400_BAD_REQUEST)
+        #   nuevo
+        response = Response (   {"Error dispatch :":"No se han enviado las credenciales"},status = status.HTTP_400_BAD_REQUEST)
         response.accepted_renderer = JSONRenderer()
         response.accepted_media_type = "application/json"
         response.renderer_context = {}
