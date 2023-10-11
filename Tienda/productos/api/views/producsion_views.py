@@ -9,7 +9,9 @@ from productos.api.serealizadores.producto_serealizador import ProductoSerealize
 
 # las urls con las que se llaman a los ViewSets van en el archivo routers.py
 #   ModelViewSet hace toda las rutas y metodos de foram automatica pero se pueden sobre escrivir
-class ProductoViewSets (Autentificador, viewsets.ModelViewSet):
+# class ProductoViewSets (Autentificador, viewsets.ModelViewSet):
+#   se borra el Autentificador para el autentificador global
+class ProductoViewSets (viewsets.ModelViewSet):
     serializer_class = ProductoSerealizera
     # esto sustitulle al metodo get_queryset y no es nesesario modificar el routers.py
     # queryset = ProductoSerealizera.Meta.model.objects.filter(estado = True)
@@ -24,6 +26,10 @@ class ProductoViewSets (Autentificador, viewsets.ModelViewSet):
 
     #   esto mostraria todos los productos
     def list (self, request):
+        #   muestra todas las claves (key) de esta clase
+        for clave, valor in request.__dict__.items():
+            print (clave,"==",valor)
+
         serealizador = self.get_serializer(self.get_queryset(), many = True)
         return Response (serealizador.data, status = status.HTTP_200_OK)
 

@@ -124,7 +124,7 @@ LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'America/Montevideo'
 
 # define el tiempo en el que expira el token en segundos
-TIEMPO_EXPIRASION_TOKEN = 300
+TIEMPO_EXPIRASION_TOKEN = 3000
 
 USE_I18N = True
 
@@ -140,11 +140,20 @@ AUTH_USER_MODEL = "usuarios.Usuario"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+
+# autenticasion global personalisada
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
+        #  aca va la clase que se usa para autentificar
+        "usuarios.autentificasion_mixer.Autentificador",
+    ]
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+# }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
