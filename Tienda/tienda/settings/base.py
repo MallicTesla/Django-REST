@@ -124,7 +124,7 @@ LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'America/Montevideo'
 
 # define el tiempo en el que expira el token en segundos
-TIEMPO_EXPIRASION_TOKEN = 3000
+TIEMPO_EXPIRASION_TOKEN = 8000
 
 USE_I18N = True
 
