@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,8 @@ THIRD_APPS = [
     "corsheaders",
     #   libreria jwt
     "rest_framework_simplejwt",
+    #   lista negra de jwt tenes que migrar al instalar esta app
+    'rest_framework_simplejwt.token_blacklist',
 
 ]
 
@@ -178,5 +181,16 @@ CORS_ORIGIN_WHITELIST = [
 #   la misma rutas que estan autorisadas ariba
     "http://localhost:3000",
 ]
+
+SIMPLE_JWT = {
+    #   asi le definis la vida del token de acseso
+    "ACCESS_TOKEN_LIFETIME": timedelta (minutes = 5),
+    #   asi le definis la vida del token de refrescar
+    "REFRESH_TOKEN_LIFETIME": timedelta (days = 1),
+    #   eso refresca el tonque de acseso y el de refrescar al mismo tiempo
+    "ROTATE_REFRESH_TOKENS": True,
+    #   este agrega los tokens refrescados a la lista negra
+    "BLACKLIST_AFTER_ROTATION": True,
+}
 
 STATIC_URL = 'static/'
