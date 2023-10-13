@@ -1,11 +1,22 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from usuarios.models import Usuario
 
+class OptenerTokenCustomPairView (TokenObtainPairSerializer):
+    pass
 
-class UsuarioTokenSerializers (serializers.ModelSerializer):
+class CustomUsuarioSerializers (serializers.ModelSerializer):
     class Meta :
         model = Usuario
         fields = ("nombre_usuario", "email", "nombre", "apellido", )
+
+
+
+# class UsuarioTokenSerializers (serializers.ModelSerializer):
+#     class Meta :
+#         model = Usuario
+#         fields = ("nombre_usuario", "email", "nombre", "apellido", )
 
 class UsuarioSerializers (serializers.ModelSerializer):
     class Meta:
