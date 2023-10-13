@@ -43,3 +43,37 @@ https://www.youtube.com/watch?v=GzP5P2J4eFA&list=PLMbRqrU_kvbRI4PgSzgbh8XPEwC1RN
         #   la misma rutas que estan autorisadas ariba
             "http://localhost:3000",
         ]
+
+------------------------------------------------------------------------------------------------------------------------------------------
+libreria simple JWT
+https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html#installation
+
+ 1) instalas la libreria
+        pip install djangorestframework-simplejwt
+
+ 2) agregas esto al los setings
+        REST_FRAMEWORK = {
+            'DEFAULT_AUTHENTICATION_CLASSES': [
+                #   este es para la libreria simple JWT
+                'rest_framework_simplejwt.authentication.JWTAuthentication',
+            ],
+            # para agregarle la autentificasion de forma global
+            "DEFAULT_PERMISSION_CLASSES": (
+                "rest_framework.permissions.IsAuthenticated",
+            )
+        }
+
+ 3) si la tenes sacas esta variable de setings
+        TIEMPO_EXPIRASION_TOKEN
+
+ 4) lo instalas en las apps
+        rest_framework_simplejwt
+
+ 5) en las urls tenes que agregar esto
+        from rest_framework_simplejwt.views import (
+            TokenObtainPairView,
+            TokenRefreshView,
+        )
+    y esto en las urls
+        path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+        path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

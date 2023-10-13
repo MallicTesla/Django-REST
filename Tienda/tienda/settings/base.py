@@ -46,6 +46,8 @@ THIRD_APPS = [
     "drf_yasg",
     # libreria para politica CORS
     "corsheaders",
+    #   libreria jwt
+    "rest_framework_simplejwt",
 
 ]
 
@@ -124,7 +126,8 @@ LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'America/Montevideo'
 
 # define el tiempo en el que expira el token en segundos
-TIEMPO_EXPIRASION_TOKEN = 8000
+# si usas la libreria simple JWT esto no es nesesario
+# TIEMPO_EXPIRASION_TOKEN = 8000
 
 USE_I18N = True
 
@@ -141,12 +144,18 @@ AUTH_USER_MODEL = "usuarios.Usuario"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 
-# autenticasion global personalisada
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # autenticasion global personalisada
         #  aca va la clase que se usa para autentificar
-        "usuarios.autentificasion_mixer.Autentificador",
-    ]
+        # "usuarios.autentificasion_mixer.Autentificador",
+        #   este es para la libreria simple JWT
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+        # para agregarle la autentificasion de forma global
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
+        )
 }
 
 # REST_FRAMEWORK = {

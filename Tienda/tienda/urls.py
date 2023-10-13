@@ -10,6 +10,11 @@ from drf_yasg import openapi
 from usuarios.views_fron import Login, Logaut, UsuarioToken
 # from usuarios.views import Login, Logaut, UsuarioToken
 
+#   JWT
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -40,7 +45,14 @@ urlpatterns = [
     path ("productos/", include ("productos.api.routers")),
     path("login/", Login.as_view(), name = "login"),
     path("logaut/", Logaut.as_view(), name="logaut"),
-    path("refrescar_token/", UsuarioToken.as_view(), name="refrescar_tokn"),
+    #   con JWT no se necesita 
+    # path("refrescar_token/", UsuarioToken.as_view(), name="refrescar_tokn"),
+
+    #   JWT
+    #   esta ruta sirve para retornar y refrescar el token de acseso para un usuario y contraseña que se le envia
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    #   refresca el toquen que estas usando
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     #   app SWAGGER
     re_path ('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

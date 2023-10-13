@@ -1,11 +1,17 @@
+# con la libreria JWT no se usa esto
 from rest_framework import generics
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.response import Response
+#   autentificado con la libreria JWT
+#   asi se define la autentificasion JWT si lo queres en una vista espesifica
+# from rest_framework.permissions import IsAuthenticated
 
-from usuarios.autentificasion_mixer import Autentificador
-from base.api import GeneralListaApiView
 from productos.api.serealizadores.producto_serealizador import ProductoSerealizera
+# se comento porque con la libreria JWT no se usa
+# from usuarios.autentificasion_mixer import Autentificador
+# con la libreria JWT no se usa esto
+from base.api import GeneralListaApiView
 
 # las urls con las que se llaman a los ViewSets van en el archivo routers.py
 #   ModelViewSet hace toda las rutas y metodos de foram automatica pero se pueden sobre escrivir
@@ -13,6 +19,8 @@ from productos.api.serealizadores.producto_serealizador import ProductoSerealize
 #   se borra el Autentificador para el autentificador global
 class ProductoViewSets (viewsets.ModelViewSet):
     serializer_class = ProductoSerealizera
+    # asi se define la autentificasion JWT si lo queres en una vista espesifica
+    # permission_classes = (IsAuthenticated,)
     # esto sustitulle al metodo get_queryset y no es nesesario modificar el routers.py
     # queryset = ProductoSerealizera.Meta.model.objects.filter(estado = True)
 
@@ -27,8 +35,8 @@ class ProductoViewSets (viewsets.ModelViewSet):
     #   esto mostraria todos los productos
     def list (self, request):
         #   muestra todas las claves (key) de esta clase
-        for clave, valor in request.__dict__.items():
-            print (clave,"==",valor)
+        # for clave, valor in request.__dict__.items():
+        #     print (clave,"==",valor)
 
         serealizador = self.get_serializer(self.get_queryset(), many = True)
         return Response (serealizador.data, status = status.HTTP_200_OK)
