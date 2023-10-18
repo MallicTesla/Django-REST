@@ -41,7 +41,8 @@ urlpatterns = [
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ("usuario/", include("usuarios.api.urls")),
+    path ("usuario/", include("usuarios.api.routers")),
+    # path ("usuario/", include("usuarios.api.urls")),
     # path ("productos/", include ("productos.api.urls")),
     path ("productos/", include ("productos.api.routers")),
     path("login/", Login.as_view(), name = "login"),
