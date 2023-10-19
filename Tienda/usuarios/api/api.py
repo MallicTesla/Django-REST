@@ -15,14 +15,16 @@ class UsuarioViwSet (viewsets.GenericViewSet):
     queryset = None
 
     def get_queryset(self):
-        if self.queryset is not None:
+        if self.queryset is None:
             # optiene todos los usuarios con el atributo is_active = True
-            self.queryset = self.serializer_class().Meta.model.objects.filter (is_active = True)
+            self.queryset = self.serializer_class().Meta.model.objects.filter (is_active = True).values("id", "nombre_usuario", "email", "password")
         return self.queryset
 
 
     def list (self, request:Request):
-        pass
+        usuarios = self.get_queryset()
+        usuario_serializer = self.list_serializer_class(usuarios, many=True)
+        return Response (usuario_serializer.data, status = status.HTTP_200_OK)
 
 
 
