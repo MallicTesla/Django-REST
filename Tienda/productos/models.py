@@ -2,23 +2,23 @@
 from base.models import BaseModel
 
 from django.db import models
-from simple_history.models import HistoricalRecords
+# from simple_history.models import HistoricalRecords
 
 class UnidadMedida (BaseModel):
     descripción = models.CharField ("Descripción", max_length = 50, blank = False, null = False, unique = True)
     # esto es para manegr los usuarios
-    historial = HistoricalRecords ()
+    # historial = HistoricalRecords ()
 
     #  este decorador se utiliza para definir un método como una propiedad de solo lectura
     #  con esta funcion se opstiene el usuario que realiso la modificasion
-    @property
-    def _history_user (self):
-        return self.changed_by
+    # @property
+    # def _history_user (self):
+    #     return self.changed_by
     
     #   con esta funcion se guarda el usuario que realiso la modificasion en el historial
-    @_history_user.setter
-    def _history_user (self, value):
-        self.changed_by = value
+    # @_history_user.setter
+    # def _history_user (self, value):
+    #     self.changed_by = value
 
     class Meta:
         verbose_name = 'Unidad de Medida'
@@ -30,15 +30,15 @@ class UnidadMedida (BaseModel):
 
 class CategoriaProducto (BaseModel):
     descripción = models.CharField ("Descripción", max_length = 50, blank = False, null = False, unique = True)
-    historial = HistoricalRecords ()
+    # historial = HistoricalRecords ()
 
-    @property
-    def _history_user (self):
-        return self.changed_by
+    # @property
+    # def _history_user (self):
+    #     return self.changed_by
     
-    @_history_user.setter
-    def _history_user (self, value):
-        self.changed_by = value
+    # @_history_user.setter
+    # def _history_user (self, value):
+    #     self.changed_by = value
 
     class Meta:
         verbose_name = 'Categoria de Producto'
@@ -51,15 +51,15 @@ class CategoriaProducto (BaseModel):
 class Indicador (BaseModel):
     valor_descuento = models.PositiveSmallIntegerField (default = 0)
     categoria_producto = models.ForeignKey (UnidadMedida, on_delete = models.CASCADE, verbose_name = "Indicador de Oferta")
-    historial = HistoricalRecords ()
+    # historial = HistoricalRecords ()
 
-    @property
-    def _history_user (self):
-        return self.changed_by
+    # @property
+    # def _history_user (self):
+    #     return self.changed_by
     
-    @_history_user.setter
-    def _history_user (self, value):
-        self.changed_by = value
+    # @_history_user.setter
+    # def _history_user (self, value):
+    #     self.changed_by = value
 
     class Meta:
         verbose_name = 'Indicaor de Oferta'
@@ -75,15 +75,15 @@ class Producto (BaseModel):
     imagen_producto = models.ImageField("Imagen del producto", upload_to="productos_imagen/", blank = True, null = True)
     unidad_medida = models.ForeignKey (UnidadMedida, on_delete = models.CASCADE, verbose_name = "Unidad de medida", null = True)
     categoria_producto = models.ForeignKey (CategoriaProducto,on_delete = models.CASCADE, verbose_name = "Categoria del producto", null = True)
-    historial = HistoricalRecords ()
+    # historial = HistoricalRecords ()
 
-    @property
-    def _history_user (self):
-        return self.changed_by
+    # @property
+    # def _history_user (self):
+    #     return self.changed_by
     
-    @_history_user.setter
-    def _history_user (self, value):
-        self.changed_by = value
+    # @_history_user.setter
+    # def _history_user (self, value):
+    #     self.changed_by = value
 
     class Meta:
         verbose_name = 'Producto'
