@@ -34,6 +34,7 @@ LOCAL_APPS = [
     "usuarios",
     "productos",
     "base",
+    "gestion_gastos",
 ]
 
 #   las aplicaciones de terseros
