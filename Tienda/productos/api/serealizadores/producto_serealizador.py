@@ -19,6 +19,26 @@ class ProductoSerealizera (serializers.ModelSerializer):
         model = Producto
         exclude = ("estado",)
 
+    #   valida si pusistes una unidad de medida-esto lo valida pero no lo hace obligatorio
+    def validate_unidad_medida (self, value):
+        if value == "" or value == None:
+            raise serializers.ValidationError("Deves ingresar una Unidad de Mendida")
+        return value
+
+    #   valida si pusistes una categoria al producto-esto lo valida pero no lo hace obligatorio
+    def validate_categoria_producto (self, value):
+        if value == "" or value == None:
+            raise serializers.ValidationError("Deves ingresar una Categoria de Producto")
+        return value
+
+    #   aca hago que los campos unidad_medida y categoria_producto sean obligatorios
+    def validate(self, data):
+        if "unidad_medida" not in data.keys():
+            raise serializers.ValidationError({"unidad_medida":"deve de ingresar una Unidad de Mendida"})
+
+        if "categoria_producto" not in data.keys():
+            raise serializers.ValidationError({"categoria_producto":"deve de ingresar una Categoria de Producto"})
+
     #  asi mostras el contenido de todos los campos inclillendo las relasinados
     def to_representation(self, instance):
         return {
@@ -26,6 +46,7 @@ class ProductoSerealizera (serializers.ModelSerializer):
             "producto": instance.producto,
             "descripción_producto": instance.descripción_producto,
             #   cuando no tenes una imagen devuelve una cadena vasio y da error asi lo areglas
+            # "imagen_producto": instance.imagen_producto if instance.imagen_producto != "" else "",
             "imagen_producto": instance.imagen_producto.url if instance.imagen_producto != "" else "",
             "unidad_medida": instance.unidad_medida.descripción if instance.unidad_medida is not None else "",
             "categoria_producto": instance.categoria_producto.descripción if instance.categoria_producto is not None else "",
