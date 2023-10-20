@@ -30,12 +30,20 @@ class UsuarioSerializers (serializers.ModelSerializer):
         usuario.save()
         return usuario
 
-    def update(self, instance, validated_data):
-        #   aca encripta la contraseña al actualisar un usuario
-        usuario = super().update(instance, validated_data)
-        usuario.set_password (validated_data ["password"])
-        usuario.save()
-        return usuario
+    # def update(self, instance, validated_data):
+    #     #   aca encripta la contraseña al actualisar un usuario
+    #     usuario = super().update(instance, validated_data)
+    #     usuario.set_password (validated_data ["password"])
+    #     usuario.save()
+    #     return usuario
+
+
+#   se suele usar una calse de actualizasion para que no pida los mismos campos que al crear como puede ser la contraseña
+class ActualizasionUsuarioSerializers (serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ("nombre_usuario", "email", "nombre", "apellido", )
+
 
 
 #   esta clase se usa para ver la todos los usuarios y algunos de sus campos
@@ -44,7 +52,7 @@ class UsuarioListaSerializaes (serializers.ModelSerializer):
         model = Usuario
 
     def to_representation (self, instance):
-        print (f"desde serealizador f {instance}")
+        # print (f"desde serealizador f {instance}")
         #   asi se llama a la automatizasion del serealizador para que funsione normal mente
         # super().to_representation (instance)
         #   asi muestra solo los campos definidos tambien se tienen que definir en el objeto en api.py
@@ -54,8 +62,18 @@ class UsuarioListaSerializaes (serializers.ModelSerializer):
             "id":instance ["id"],
             "nombre de usuario":instance ["nombre_usuario"],
             "correo":instance ["email"],
-            "password":instance ["password"]
+            "password":instance ["password"],
         }
+
+
+class ActualizarContraseñaSerializaes(serializers.Serializer):
+    password_1 = serializers.CharField(max_length = 128, min_length =3, write_only = True)
+    password_2 = serializers.CharField(max_length = 128, min_length =3, write_only = True)
+
+    def validate (self, data):
+        if data["password_1"] != data["password_2"]:
+            raise serializers.ValidationError({"password":"Las contraseñas no son iguales (api.serealizador)"})
+        return data
 
 
 #   asi se hace una serealizasion sin un modelo se construlle como si fuese un modelo
