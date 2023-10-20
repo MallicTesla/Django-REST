@@ -72,7 +72,7 @@ class Indicador (BaseModel):
 class Producto (BaseModel):
     producto = models.CharField ("Producto", max_length = 150, unique = True, blank = False, null = False)
     descripción_producto = models.TextField ("Descripción del producto", null = False, unique = True)
-    imagen_producto = models.ImageField("Imagen del producto", upload_to="productos/", blank = True, null = True)
+    imagen_producto = models.ImageField("Imagen del producto", upload_to="productos_imagen/", blank = True, null = True)
     unidad_medida = models.ForeignKey (UnidadMedida, on_delete = models.CASCADE, verbose_name = "Unidad de medida", null = True)
     categoria_producto = models.ForeignKey (CategoriaProducto,on_delete = models.CASCADE, verbose_name = "Categoria del producto", null = True)
     historial = HistoricalRecords ()

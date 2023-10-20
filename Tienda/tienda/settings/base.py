@@ -184,9 +184,9 @@ CORS_ORIGIN_WHITELIST = [
 
 SIMPLE_JWT = {
     #   asi le definis la vida del token de acseso
-    "ACCESS_TOKEN_LIFETIME": timedelta (days = 1),
+    "ACCESS_TOKEN_LIFETIME": timedelta (days = 10),
     #   asi le definis la vida del token de refrescar
-    "REFRESH_TOKEN_LIFETIME": timedelta (days = 1),
+    "REFRESH_TOKEN_LIFETIME": timedelta (days = 10),
     #   eso refresca el tonque de acseso y el de refrescar al mismo tiempo
     "ROTATE_REFRESH_TOKENS": True,
     #   este agrega los tokens refrescados a la lista negra

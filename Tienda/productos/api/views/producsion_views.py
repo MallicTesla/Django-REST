@@ -2,6 +2,8 @@
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import viewsets
+# los parsrs son para las imagenes y ya vienen incluidos
+from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 #   autentificado con la libreria JWT
 #   asi se define la autentificasion JWT si lo queres en una vista espesifica
@@ -18,6 +20,8 @@ from base.api import GeneralListaApiView
 # class ProductoViewSets (Autentificador, viewsets.ModelViewSet):
 #   se borra el Autentificador para el autentificador global
 class ProductoViewSets (viewsets.ModelViewSet):
+    #   esto ya viene incluido no es nesesario re incluirlos 
+    parser_classes = (JSONParser, MultiPartParser)
     serializer_class = ProductoSerealizera
     # asi se define la autentificasion JWT si lo queres en una vista espesifica
     # permission_classes = (IsAuthenticated,)
