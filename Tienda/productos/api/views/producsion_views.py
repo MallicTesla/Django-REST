@@ -9,6 +9,7 @@ from rest_framework.response import Response
 #   asi se define la autentificasion JWT si lo queres en una vista espesifica
 # from rest_framework.permissions import IsAuthenticated
 
+from base.herramientas import validar_archivo
 from productos.api.serealizadores.producto_serealizador import ProductoSerealizera
 # se comento porque con la libreria JWT no se usa
 # from usuarios.autentificasion_mixer import Autentificador
@@ -47,7 +48,10 @@ class ProductoViewSets (viewsets.ModelViewSet):
 
     #   es lo mismo que un metodo post que es un http PUT
     def create (self, request):
-        serealizador = self.serializer_class (data = request.data)
+        print (request.data)
+        #   esta es una comprovacion para saber si me estan mandando una imagen o una cadena vacia el serealizador no se da cuenta
+        data = validar_archivo(request.data, "imagen_producto")
+        serealizador = self.serializer_class (data = data)
         if serealizador.is_valid():
             serealizador.save()
             return Response ({"message":"Producto creado corectamente"}, status = status.HTTP_201_CREATED)

@@ -39,6 +39,8 @@ class ProductoSerealizera (serializers.ModelSerializer):
         if "categoria_producto" not in data.keys():
             raise serializers.ValidationError({"categoria_producto":"deve de ingresar una Categoria de Producto"})
 
+        return data
+
     #  asi mostras el contenido de todos los campos inclillendo las relasinados
     def to_representation(self, instance):
         return {
