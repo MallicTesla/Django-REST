@@ -10,7 +10,7 @@ from simple_history.models import HistoricalRecords
 
 class Provedor (BaseModel):
     ruc = models.CharField(unique=True, max_length=11)
-    business_name = models.CharField('Razón Social', unique=True, max_length=150, null=False, blank=False)
+    negosio = models.CharField('Razón Social', unique=True, max_length=150, null=False, blank=False)
     direcsion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=15, null=True, blank=True)
     email = models.EmailField(null=True)
@@ -21,13 +21,13 @@ class Provedor (BaseModel):
         verbose_name_plural = 'Proveedores'   
 
     def __str__(self):
-        return self.business_name
+        return self.negosio
 
     def to_dict(self):
         return {
             'id': self.id,
             'ruc': self.ruc,
-            'business_name': self.business_name,
+            'negosio': self.negosio,
             'direcsion': self.direcsion,
             'telefono': self.telefono,
             'email': self.email

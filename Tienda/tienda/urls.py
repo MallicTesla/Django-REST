@@ -48,6 +48,8 @@ urlpatterns = [
     # path ("usuario/", include("usuarios.api.urls")),
     # path ("productos/", include ("productos.api.urls")),
     path ("productos/", include ("productos.api.routers")),
+    #  gastos
+    path ("gasto/", include ("gestion_gastos.api.routers")),
     path("login/", Login.as_view(), name = "login"),
     path("logaut/", Logaut.as_view(), name="logaut"),
     #   con JWT no se necesita 
