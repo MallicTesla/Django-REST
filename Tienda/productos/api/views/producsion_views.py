@@ -70,7 +70,9 @@ class ProductoViewSets (viewsets.ModelViewSet):
 #   es lo mismo que para actualisar
     def update (self, request, pk = None):
         if self.get_queryset(pk):
-            producto_serealaizer = self.serializer_class(self.get_queryset (pk), data = request.data)
+            data = validar_archivo(request.data,"imagen_producto", True)
+            producto_serealaizer = self.serializer_class(self.get_queryset (pk), data = data)
+            # producto_serealaizer = self.serializer_class(self.get_queryset (pk), data = request.data)
             if producto_serealaizer.is_valid():
                 producto_serealaizer.save()
                 return Response (producto_serealaizer.data, status = status.HTTP_200_OK)
