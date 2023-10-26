@@ -23,7 +23,7 @@ class Provedor (BaseModel):
     def __str__(self):
         return self.negosio
 
-    def to_dict(self):
+    def muestra (self):
         return {
             'id': self.id,
             'ruc': self.ruc,
