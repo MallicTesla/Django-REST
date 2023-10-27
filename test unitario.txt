@@ -1,0 +1,8 @@
+los test unitarios se realisan con otra base de datos
+
+para ejecutar un test se hace por consola con python manage.py test
+esto lo que hase es que busca todos los archivos que comiensa con test y busca todos los que son de tipo TestCase
+--------------------------------------------------------------------
+esto es una libreria para poblar una base de datos
+
+pip install faker
