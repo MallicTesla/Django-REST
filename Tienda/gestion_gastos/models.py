@@ -86,9 +86,9 @@ class Gasto (BaseModel):
         verbose_name_plural = 'Gastos'
 
     def __str__(self):
-        return self.voucher_number
+        return self.numero_comprobante
 
-class Merma(BaseModel):
+class Merma (BaseModel):
     fecha_merma = models.DateField('Fecha de emisión de Merma', auto_now=False, auto_now_add=False)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.DecimalField('Cantidad', max_digits=7, decimal_places=2)

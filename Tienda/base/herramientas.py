@@ -1,3 +1,5 @@
+from datetime import datetime
+
 # def validar_archivo (request, campo, actualizar=False):
 #     #   por defecto el (request.data) no se puede modificar pero esta es una forma de modificarla no muy elegante
 #     request._mutable = True
@@ -14,6 +16,7 @@
 #     request._mutable = False
 
 #     return request
+
 
 # lo mismo pero usando metodos internos
 def validar_archivo (request, campo, actualizar=False):
@@ -34,3 +37,12 @@ def validar_archivo (request, campo, actualizar=False):
             request.__setitem__(campo, None)
 
     return request
+
+#   para cambiar el formato de la fecha que biene desde el fron
+def formanto_fecha (data):
+    data = datetime.strptime (data, "%d/%m/%Y")
+    data = f"{data.año}-{data.mes}-{data.dia}"
+    return data
+
+
+
