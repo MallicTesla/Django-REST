@@ -22,13 +22,13 @@ class GastoViewSets (viewsets.GenericViewSet):
     @action (methods=["get"], detail=False)
     def buscar_provedor(self, request:Request):
         #   esto toma las palabras para buscar al final va el nombre de la variable que viene del fron
-        ruc_o_negosio = request.query_params.get ("rut_o_negosio","")
+        ruc_o_negosio = request.query_params.get ("ruc_o_negosio", "")
         #   busaca en los campos de la base de datos si existen coinsidensias
         provedor = Provedor.objects.filter(Q(ruc__iexact = ruc_o_negosio) | Q(negosio__iexact = ruc_o_negosio)).first()
 
         if provedor:
             provedor_serializer = ProvedorSerializer (provedor)
-            return Response (provedor.serializer.data, status = status.HTTP_200_OK)
+            return Response (provedor_serializer.data, status = status.HTTP_200_OK)
         return Response ({"Mensage":"No se a encontrado ningun provedor"}, status = status.HTTP_400_BAD_REQUEST)
 
     # crear provedor

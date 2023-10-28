@@ -35,7 +35,7 @@ class TestSetUp (APITestCase):
         #   aca guarda el token con el que inisiastes sesion
         self.token = response.data ["token"]
         #   aca se setea la instansia credentials con las credensiales con la que se envia las petisiones
-        self.client.credentials(HTTP_AUTHORIZATION="BEARER" + self.token)
+        self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.token)
         #   aca se logea
         return super().setUp()
 
