@@ -1,9 +1,10 @@
 # para buscar un provedor primero tenes que crear uno en fabrica
-from test.test_setup import TestSetUp
-
 from rest_framework import status
 
+from test.test_setup import TestSetUp
 from test.fabrica.gestion_gastos.gasto_favrica import ProvedorFabrica
+
+from gestion_gastos.models import Provedor
 
 class GastoTestCase (TestSetUp):
     url_prinsipal = "/gasto/gastos/"
@@ -41,3 +42,16 @@ class GastoTestCase (TestSetUp):
         self.assertEqual (response.status_code, status.HTTP_400_BAD_REQUEST)
         #   comprueva si el mensage que resivis es el mismo
         self.assertEqual (response.data["Mensage"], "No se a encontrado ningun provedor")
+
+
+    def test_nuevo_provedor (self):
+        provedor = ProvedorFabrica().construir_provedor_JSON()
+        response = self.client.post (
+            self.url_prinsipal + "nuevo_provedor/",
+            provedor,
+            format = "json",
+        )
+
+        self.assertEqual (response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual (Provedor.objects.all().count(), 1)
+        self.assertEqual (response.data ["Provedor"] ["ruc"], provedor ["ruc"])

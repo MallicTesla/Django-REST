@@ -5,12 +5,12 @@ from gestion_gastos.models import Provedor, Gasto
 class GastoSerializers (serializers.ModelSerializer):
     class Meta:
         model = Gasto
-        exclude = ("id")
+        exclude = ("id",)
 
 class ProvedorRegistroSerializers (serializers.ModelSerializer):
     class Meta:
         model = Provedor
-        exclude = ("id")
+        exclude = ("id",)
 
     def save (self):
         nuevo_provedor = Provedor.objects.create(**self.validated_data)

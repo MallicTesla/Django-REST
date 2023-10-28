@@ -12,7 +12,7 @@ class ProvedorFabrica:
             "ruc" : str(faker.random_number(digits = 11)),
             "negosio" : faker.company(),
             "direcsion" : faker.address(),
-            "telefono" : faker.phone_number(),
+            "telefono" : str (faker.random_number(digits=11)),
             "email" :   faker.email()
         }
 
