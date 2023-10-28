@@ -91,4 +91,20 @@ class Producto (BaseModel):
 
     def __str__(self):
         return self.producto
+    
+    #   el estok se agrega de esta forma por las diversas operasiones que se le puede hacer
+    #   property permite llamar a la funsion como si fuera un campo mas del modelo
+    @property
+    def stocks (self):
+        from django.db.models import Sum
+        #   esto se importa aca porque puede generar recursividad
+        from gestion_gastos.models import Gasto
+
+        gasto = Gasto.objects.filter (
+            producto = self,
+            estate = True
+            #   esto hace referensia a el campo del modelo de Gasto
+        ).aaggregate(Sum("cantidad"))
+
+        return gasto
 
