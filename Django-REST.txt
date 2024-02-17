@@ -1,79 +1,79 @@
- 1)  Para instalar libreria para ver las apis es (documentacion https://drf-yasg.readthedocs.io/en/stable/readme.html)
-	    pip install drf-yasg
+1)  Para instalar libreria para ver las apis es (documentacion https://drf-yasg.readthedocs.io/en/stable/readme.html)
+       pip install drf-yasg
 
- 2)  despues añadis esto a las apps
-        "drf_yasg"
+2)  despues añadis esto a las apps
+       "drf_yasg"
 
- 3)  en las urls.py tenes que agregar unas cuantas cosas miralo en la documentacion
+3)  en las urls.py tenes que agregar unas cuantas cosas miralo en la documentacion
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 authtoken
 
- 1) primero colocas esto en las apps
-        "rest_framework.authtoken",
+1) primero colocas esto en las apps
+       "rest_framework.authtoken",
 
- 2) despues haces las migration
+2) despues haces las migration
 
- 3) lo que sige esta en views.py
+3) lo que sige esta en views.py
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 parte del fron
 https://www.youtube.com/watch?v=GzP5P2J4eFA&list=PLMbRqrU_kvbRI4PgSzgbh8XPEwC1RNj8F&index=33&ab_channel=Developer.pe
- 1) para solusionar el errorde las politicas de CORS al hacer una peticion desde el fron se tiene que instalar esto
+1) para solusionar el errorde las politicas de CORS al hacer una peticion desde el fron se tiene que instalar esto
 
-        python -m pip install django-cors-headers
+       python -m pip install django-cors-headers
 
- 2) despues se instala esto en las apps
-        "corsheaders"
+2) despues se instala esto en las apps
+       "corsheaders"
 
- 3) se agrega esto en los MIDDLEWARE lo ma ariba posible
-        "corsheaders.middleware.CorsMiddleware",
+3) se agrega esto en los MIDDLEWARE lo ma ariba posible
+       "corsheaders.middleware.CorsMiddleware",
 
- 4) de donde se permite hacer las petisiones
-        CORS_ALLOWED_ORIGINS = [
-        #    "https://example.com",
-        #    "https://sub.example.com",
-        #   en este caso se permite solo del puerto 3000
-            "http://localhost:3000",
-        #    "http://127.0.0.1:9000",
-        ]
+4) de donde se permite hacer las petisiones
+       CORS_ALLOWED_ORIGINS = [
+       #    "https://example.com",
+       #    "https://sub.example.com",
+       #   en este caso se permite solo del puerto 3000
+       "http://localhost:3000",
+       #    "http://127.0.0.1:9000",
+       ]
 
- 5) si sige dando error se agrega esto
-        CORS_ORIGIN_WHITELIST = [
-        #   la misma rutas que estan autorisadas ariba
-            "http://localhost:3000",
-        ]
+5) si sige dando error se agrega esto
+       CORS_ORIGIN_WHITELIST = [
+       #   la misma rutas que estan autorisadas ariba
+       "http://localhost:3000",
+       ]
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 libreria simple JWT
 https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html#installation
 
- 1) instalas la libreria
-        pip install djangorestframework-simplejwt
+1) instalas la libreria
+       pip install djangorestframework-simplejwt
 
- 2) agregas esto al los setings
-        REST_FRAMEWORK = {
-            'DEFAULT_AUTHENTICATION_CLASSES': [
-                #   este es para la libreria simple JWT
-                'rest_framework_simplejwt.authentication.JWTAuthentication',
-            ],
-            # para agregarle la autentificasion de forma global
-            "DEFAULT_PERMISSION_CLASSES": (
-                "rest_framework.permissions.IsAuthenticated",
-            )
-        }
+2) agregas esto al los setings
+       REST_FRAMEWORK = {
+       'DEFAULT_AUTHENTICATION_CLASSES': [
+              #   este es para la libreria simple JWT
+              'rest_framework_simplejwt.authentication.JWTAuthentication',
+       ],
+       # para agregarle la autentificasion de forma global
+       "DEFAULT_PERMISSION_CLASSES": (
+              "rest_framework.permissions.IsAuthenticated",
+       )
+       }
 
- 3) si la tenes sacas esta variable de setings
-        TIEMPO_EXPIRASION_TOKEN
+3) si la tenes sacas esta variable de setings
+       TIEMPO_EXPIRASION_TOKEN
 
- 4) lo instalas en las apps
-        rest_framework_simplejwt
+4) lo instalas en las apps
+       rest_framework_simplejwt
 
- 5) en las urls tenes que agregar esto
-        from rest_framework_simplejwt.views import (
-            TokenObtainPairView,
-            TokenRefreshView,
-        )
-    y esto en las urls
-        path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-        path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+5) en las urls tenes que agregar esto
+       from rest_framework_simplejwt.views import (
+       TokenObtainPairView,
+       TokenRefreshView,
+       )
+y esto en las urls
+       path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+       path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
